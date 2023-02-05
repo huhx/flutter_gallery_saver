@@ -2,12 +2,14 @@ package com.huhx.gallerysaver
 
 import android.content.Context
 import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.media.MediaScannerConnection
 import java.io.IOException
 
 class ImageSaver(private val context: Context) : BaseSaver(context) {
 
-    fun save(bitmap: Bitmap, quality: Int, name: String?): SaveResult {
+    fun save(bytes: ByteArray, quality: Int, name: String?): SaveResult {
+        val bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.size)
         val fileUri = generateUri("jpg", name = name)
         return try {
             val fos = context.contentResolver?.openOutputStream(fileUri)!!
