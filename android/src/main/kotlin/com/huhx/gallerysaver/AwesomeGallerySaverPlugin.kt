@@ -15,6 +15,8 @@ import io.flutter.plugin.common.MethodCall
 import io.flutter.plugin.common.MethodChannel
 import io.flutter.plugin.common.MethodChannel.MethodCallHandler
 import io.flutter.plugin.common.MethodChannel.Result
+import java.io.File
+import java.io.FileInputStream
 import java.io.IOException
 import java.util.*
 
@@ -29,21 +31,41 @@ class AwesomeGallerySaverPlugin : FlutterPlugin, MethodCallHandler {
                 val quality = call.argument<Int>("quality") ?: return
                 val name = call.argument<String>("name")
 
-                result.success(saveImage(BitmapFactory.decodeByteArray(bytes, 0, bytes.size), quality, name))
+                val saveResult = ImageSaver(context).save(BitmapFactory.decodeByteArray(bytes, 0, bytes.size), quality, name)
+
+                result.success(saveResult)
+            }
+            "saveFile" -> {
+                val path = call.argument<String>("file") ?: return
+                val name = call.argument<String>("name")
+
+                val saveResult = saveFile(path, name)
+
+                result.success(saveResult)
             }
             else -> result.notImplemented()
         }
     }
 
-    private fun saveImage(bitmap: Bitmap, quality: Int, name: String?): SaveResult {
-        val fileUri = generateUri("jpg", name = name)
+    private fun saveFile(filePath: String, name: String?): SaveResult {
         return try {
-            val fos = context.contentResolver?.openOutputStream(fileUri)!!
-            bitmap.compress(Bitmap.CompressFormat.JPEG, quality, fos)
-            fos.flush()
-            fos.close()
+            val originalFile = File(filePath)
+            val fileUri = generateUri(originalFile.extension, name)
+
+            val outputStream = context.contentResolver?.openOutputStream(fileUri)!!
+            val fileInputStream = FileInputStream(originalFile)
+
+            val buffer = ByteArray(10240)
+            var count: Int
+            while (fileInputStream.read(buffer).also { count = it } > 0) {
+                outputStream.write(buffer, 0, count)
+            }
+
+            outputStream.flush()
+            outputStream.close()
+            fileInputStream.close()
+
             MediaScannerConnection.scanFile(context, arrayOf(fileUri.toString()), null, null)
-            bitmap.recycle()
             SaveResult.success(fileUri.toString())
         } catch (e: IOException) {
             SaveResult.fail(e.toString())
