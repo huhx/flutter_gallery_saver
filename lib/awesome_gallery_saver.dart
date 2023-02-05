@@ -5,10 +5,32 @@
 // platforms in the `pubspec.yaml` at
 // https://flutter.dev/docs/development/packages-and-plugins/developing-packages#plugin-platforms.
 
-import 'awesome_gallery_saver_platform_interface.dart';
+import 'dart:async';
+
+import 'package:awesome_gallery_saver/save_result.dart';
+import 'package:flutter/services.dart';
 
 class AwesomeGallerySaver {
-  Future<String?> getPlatformVersion() {
-    return AwesomeGallerySaverPlatform.instance.getPlatformVersion();
+  static const MethodChannel _channel = MethodChannel('awesome_gallery_saver');
+
+  static FutureOr<SaveResult> saveImage(
+    Uint8List imageBytes, {
+    int quality = 80,
+    String? name,
+  }) async {
+    return await _channel.invokeMethod(
+      'saveImage',
+      {'imageBytes': imageBytes, 'quality': quality, 'name': name},
+    );
+  }
+
+  static Future<SaveResult> saveFile(
+    String file, {
+    String? name,
+  }) async {
+    return await _channel.invokeMethod(
+      'saveFile',
+      {'file': file, 'name': name},
+    );
   }
 }
