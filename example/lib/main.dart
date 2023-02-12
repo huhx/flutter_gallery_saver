@@ -48,9 +48,7 @@ class _MyAppState extends State<MyApp> {
         appBar: AppBar(
           title: const Text('Plugin example app'),
         ),
-        body: const Center(
-          child: Text('Running on: '),
-        ),
+        body: const Center(child: Text('Running on: ')),
       ),
     );
   }

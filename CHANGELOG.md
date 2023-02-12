@@ -1,3 +1,6 @@
+## 0.0.4
+* set minSdkVersion to 19
+
 ## 0.0.3
 * rename to GallerySaver 
 

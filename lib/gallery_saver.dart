@@ -7,13 +7,12 @@
 
 import 'dart:async';
 
-import 'package:awesome_gallery_saver/save_result.dart';
 import 'package:flutter/services.dart';
 
 class GallerySaver {
   static const MethodChannel _channel = MethodChannel('awesome_gallery_saver');
 
-  static FutureOr<SaveResult> saveImage(
+  static FutureOr<dynamic> saveImage(
     Uint8List bytes, {
     int quality = 80,
     String? name,
@@ -27,7 +26,7 @@ class GallerySaver {
     });
   }
 
-  static Future<SaveResult> saveFile(
+  static Future<dynamic> saveFile(
     String file, {
     String? name,
     bool isReturnIosPath = false,
