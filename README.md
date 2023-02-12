@@ -1,18 +1,50 @@
 # awesome_gallery_saver
 
-A new Flutter plugin project.
+Save images or videos to the gallery.
 
-## Getting Started
+## Usage
 
-This project is a starting point for a Flutter
-[plug-in package](https://flutter.dev/developing-packages/),
-a specialized package that includes platform-specific implementation code for
-Android and/or iOS.
+To use this plugin, add `awesome_gallery_saver` as a dependency in your pubspec.yaml file. For example:
+```yaml
+dependencies:
+  awesome_gallery_saver: ^0.0.2
+```
 
-For help getting started with Flutter development, view the
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+## iOS
+Your project need create with swift.
+Add the following keys to your Info.plist file, located in <project root>/ios/Runner/Info.plist:
+ * NSPhotoLibraryAddUsageDescription - describe why your app needs permission for the photo library. This is called Privacy - Photo Library Additions Usage Description in the visual editor
+ 
+ ##  Android
+ You need to ask for storage permission to save an image to the gallery. You can handle the storage permission using [flutter_permission_handler](https://github.com/BaseflowIT/flutter-permission-handler).
+ In Android version 10, Open the manifest file and add this line to your application tag
+ ```
+ <application android:requestLegacyExternalStorage="true" .....>
+ ```
 
-The plugin project was generated without specifying the `--platforms` flag, no platforms are currently supported.
-To add platforms, run `flutter create -t plugin --platforms <platforms> .` in this directory.
-You can also find a detailed instruction on how to add platforms in the `pubspec.yaml` at https://flutter.dev/docs/development/packages-and-plugins/developing-packages#plugin-platforms.
+## Example
+Saving an image from the internet, quality and name is option
+``` dart
+Future<void> _saveImage() async {
+   var response = await Dio().get(
+           "https://lmg.jj20.com/up/allimg/1114/040221103339/210402103339-8-1200.jpg",
+           options: Options(responseType: ResponseType.bytes));
+   final result = await ImageGallerySaver.saveImage(
+           Uint8List.fromList(response.data),
+           quality: 60,
+           name: "hello",
+           );
+   print(result);
+  }
+```
+
+Saving file(ig: images/video/gif/others) from the internet
+``` dart
+Future<void> _saveFile() async {
+    var appDocDir = await getTemporaryDirectory();
+    String savePath = appDocDir.path + "/image.jpg";
+    await Dio().download("https://lmg.jj20.com/up/allimg/1114/040221103339/210402103339-8-1200.jpg", savePath);
+    final result = await ImageGallerySaver.saveFile(savePath);
+    print(result);
+ }
+```

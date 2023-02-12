@@ -1,6 +1,6 @@
 name: awesome_gallery_saver
 description: A flutter plugin project for stroing image or file to gallery, support Andorid & Ios.
-version: 0.0.1
+version: 0.0.2
 homepage: https://github.com/huhx/flutter_gallery_saver.git
 
 environment:
