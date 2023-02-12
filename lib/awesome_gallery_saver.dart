@@ -14,23 +14,28 @@ class AwesomeGallerySaver {
   static const MethodChannel _channel = MethodChannel('awesome_gallery_saver');
 
   static FutureOr<SaveResult> saveImage(
-    Uint8List imageBytes, {
+    Uint8List bytes, {
     int quality = 80,
     String? name,
+    bool isReturnIosPath = false,
   }) async {
-    return await _channel.invokeMethod(
-      'saveImage',
-      {'imageBytes': imageBytes, 'quality': quality, 'name': name},
-    );
+    return await _channel.invokeMethod('saveImage', {
+      'bytes': bytes,
+      'quality': quality,
+      'name': name,
+      'isReturnImagePathOfIOS': isReturnIosPath
+    });
   }
 
   static Future<SaveResult> saveFile(
     String file, {
     String? name,
+    bool isReturnIosPath = false,
   }) async {
-    return await _channel.invokeMethod(
-      'saveFile',
-      {'file': file, 'name': name},
-    );
+    return await _channel.invokeMethod('saveFile', {
+      'file': file,
+      'name': name,
+      'isReturnPathOfIOS': isReturnIosPath,
+    });
   }
 }
