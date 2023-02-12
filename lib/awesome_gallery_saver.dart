@@ -10,7 +10,7 @@ import 'dart:async';
 import 'package:awesome_gallery_saver/save_result.dart';
 import 'package:flutter/services.dart';
 
-class AwesomeGallerySaver {
+class GallerySaver {
   static const MethodChannel _channel = MethodChannel('awesome_gallery_saver');
 
   static FutureOr<SaveResult> saveImage(

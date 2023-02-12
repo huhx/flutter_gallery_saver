@@ -1,3 +1,6 @@
+## 0.0.3
+* rename to GallerySaver 
+
 ## 0.0.2
 * support feature for ios & android
 
