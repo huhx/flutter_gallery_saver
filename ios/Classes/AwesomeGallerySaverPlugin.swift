@@ -21,7 +21,7 @@ public class AwesomeGallerySaverPlugin: NSObject, FlutterPlugin {
                   let image = UIImage(data: imageData),
                   let quality = arguments["quality"] as? Int,
                   let _ = arguments["name"],
-                  let isReturnImagePath = arguments["isReturnImagePathOfIOS"] as? Bool
+                  let isReturnImagePath = arguments["isReturnIosPath"] as? Bool
             else { return }
             let newImage = image.jpegData(compressionQuality: CGFloat(quality / 100))!
             saveImage(UIImage(data: newImage) ?? image, isReturnImagePath: isReturnImagePath)
@@ -29,7 +29,7 @@ public class AwesomeGallerySaverPlugin: NSObject, FlutterPlugin {
             guard let arguments = call.arguments as? [String: Any],
                   let path = arguments["file"] as? String,
                   let _ = arguments["name"],
-                  let isReturnFilePath = arguments["isReturnPathOfIOS"] as? Bool else { return }
+                  let isReturnFilePath = arguments["isReturnIosPath"] as? Bool else { return }
             if (isImageFile(filename: path)) {
                 saveImageAtFileUrl(path, isReturnImagePath: isReturnFilePath)
             } else {
@@ -173,20 +173,5 @@ public class AwesomeGallerySaverPlugin: NSObject, FlutterPlugin {
         || filename.hasSuffix(".GIF")
         || filename.hasSuffix(".heic")
         || filename.hasSuffix(".HEIC")
-    }
-}
-
-public struct SaveResultModel: Encodable {
-    var isSuccess: Bool!
-    var filePath: String?
-    var errorMessage: String?
-    
-    func toDic() -> [String:Any]? {
-        let encoder = JSONEncoder()
-        guard let data = try? encoder.encode(self) else { return nil }
-        if (!JSONSerialization.isValidJSONObject(data)) {
-            return try? JSONSerialization.jsonObject(with: data, options: .mutableContainers) as? [String:Any]
-        }
-        return nil
     }
 }
