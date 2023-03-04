@@ -1,3 +1,6 @@
+## 0.0.5
+* set jdk to 11
+
 ## 0.0.4
 * set minSdkVersion to 19
 

@@ -7,7 +7,7 @@ Save images or videos to the gallery.
 To use this plugin, add `awesome_gallery_saver` as a dependency in your pubspec.yaml file. For example:
 ```yaml
 dependencies:
-  awesome_gallery_saver: ^0.0.4
+  awesome_gallery_saver: ^0.0.5
 ```
 
 ## iOS
