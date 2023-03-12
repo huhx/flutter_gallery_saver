@@ -175,3 +175,18 @@ public class AwesomeGallerySaverPlugin: NSObject, FlutterPlugin {
         || filename.hasSuffix(".HEIC")
     }
 }
+
+public struct SaveResultModel: Encodable {
+    var isSuccess: Bool!
+    var filePath: String?
+    var errorMessage: String?
+    
+    func toDic() -> [String:Any]? {
+        let encoder = JSONEncoder()
+        guard let data = try? encoder.encode(self) else { return nil }
+        if (!JSONSerialization.isValidJSONObject(data)) {
+            return try? JSONSerialization.jsonObject(with: data, options: .mutableContainers) as? [String:Any]
+        }
+        return nil
+    }
+}

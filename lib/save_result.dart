@@ -1,3 +1,4 @@
+/// the result of the file saving to gallery
 class SaveResult {
   final bool isSuccess;
   final String? filePah;

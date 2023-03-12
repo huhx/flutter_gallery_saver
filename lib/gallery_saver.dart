@@ -5,6 +5,7 @@ import 'package:flutter/services.dart';
 class GallerySaver {
   static const MethodChannel _channel = MethodChannel('awesome_gallery_saver');
 
+  /// save image to Gallery
   static FutureOr<dynamic> saveImage(
     Uint8List bytes, {
     int quality = 80,
@@ -19,6 +20,7 @@ class GallerySaver {
     });
   }
 
+  /// save the file with the path [file] to gallery
   static Future<dynamic> saveFile(
     String file, {
     String? name,
