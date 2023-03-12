@@ -7,7 +7,7 @@ Save images or videos to the gallery.
 To use this plugin, add `awesome_gallery_saver` as a dependency in your pubspec.yaml file. For example:
 ```yaml
 dependencies:
-  awesome_gallery_saver: ^0.0.5
+  awesome_gallery_saver: ^0.0.6
 ```
 
 ## iOS
@@ -28,7 +28,8 @@ Saving an image from the internet, quality and name is option
 Future<void> _saveImage() async {
     final Response<dynamic> response = await Dio().get(
         "https://lmg.jj20.com/up/allimg/1114/040221103339/210402103339-8-1200.jpg",
-        options: Options(responseType: ResponseType.bytes));
+        options: Options(responseType: ResponseType.bytes),
+    );
     final result = await GallerySaver.saveImage(
       Uint8List.fromList(response.data),
       quality: 60,

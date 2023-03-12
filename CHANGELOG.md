@@ -1,3 +1,6 @@
+## 0.0.6
+* update the docs
+  
 ## 0.0.5
 * set jdk to 11
 
